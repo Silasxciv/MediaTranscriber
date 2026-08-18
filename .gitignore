@@ -1,0 +1,20 @@
+# Python 缓存
+__pycache__/
+*.pyc
+*.pyo
+
+# 打包中间产物
+build/
+dist/
+*.log
+
+# 虚拟环境（约 110MB，本机才有）
+.buildenv/
+
+# 下载的 ffmpeg（可通过 get_ffmpeg.py 重新获取）
+bin/
+
+# 系统/编辑器
+.DS_Store
+Thumbs.db
+*.swp
