@@ -29,7 +29,6 @@ python build.spec
 
 ## 📦 技术栈
 Python · customtkinter（微信风界面）· yt-dlp · faster-whisper · PyInstaller
-（以上仅是说明文字，你无需安装或操作任何东西）
 
 ## 📄 License
 MIT —— 见仓库根目录的 LICENSE 文件
