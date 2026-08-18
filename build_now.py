@@ -8,8 +8,21 @@ import os
 import shutil
 import subprocess
 import tempfile
+import importlib.util as _ilu
 
 HERE = r"C:\workbuddy\MediaTranscriber"
+
+# 与 build.spec 同步：读取版本号，产物名 = "MediaTranscriber vX.Y.Z.exe"
+try:
+    _vi_spec = _ilu.spec_from_file_location("app_init", os.path.join(HERE, "app", "__init__.py"))
+    _vi_mod = _ilu.module_from_spec(_vi_spec)
+    _vi_spec.loader.exec_module(_vi_mod)
+    APP_VERSION = getattr(_vi_mod, "__version__", "1.0.0")
+except Exception:
+    APP_VERSION = "1.0.0"
+EXE_NAME = f"MediaTranscriber v{APP_VERSION}"
+EXE_FILE = EXE_NAME + ".exe"  # build.spec 的 name 不带后缀，PyInstaller 自动补 .exe
+
 tmp = tempfile.gettempdir()
 wp = os.path.join(tmp, "mt_build")
 dp = os.path.join(tmp, "mt_dist")
@@ -33,8 +46,8 @@ if r.returncode != 0:
         print("BUILD_TAIL:\n", f.read()[-1500:])
     raise SystemExit(r.returncode)
 
-src = os.path.join(dp, "MediaTranscriber.exe")
-dst = os.path.join(HERE, "dist", "MediaTranscriber.exe")
+src = os.path.join(dp, EXE_FILE)
+dst = os.path.join(HERE, "dist", EXE_FILE)
 new = os.path.join(HERE, "dist", "MediaTranscriber_new.exe")
 if not os.path.exists(src):
     raise SystemExit("exe 未生成: " + src)

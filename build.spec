@@ -7,6 +7,17 @@ bin_dir = os.path.join(HERE, "bin")
 # customtkinter 自带主题/字体/图标，需要 hook 一并收集，否则冻结后找不到资源会崩溃
 hook_dir = os.path.join(HERE, "pyinstaller_hooks")
 
+# 读取版本号，让产物直接带版本名（如 "MediaTranscriber v1.1.0.exe"）
+try:
+    import importlib.util as _ilu
+    _vi_spec = _ilu.spec_from_file_location("app_init", os.path.join(HERE, "app", "__init__.py"))
+    _vi_mod = _ilu.module_from_spec(_vi_spec)
+    _vi_spec.loader.exec_module(_vi_mod)
+    APP_VERSION = getattr(_vi_mod, "__version__", "1.0.0")
+except Exception:
+    APP_VERSION = "1.0.0"
+EXE_NAME = f"MediaTranscriber v{APP_VERSION}"
+
 # faster_whisper 运行时从包内 assets 目录加载 silero_vad_v6.onnx（VAD 模型）。
 # 该 .onnx 是非 py 资源，PyInstaller 默认不收集，必须显式打进 exe，否则冻结后
 # 转写报 [ONNXRuntimeError] NO_SUCHFILE。hook 自动发现在此环境下不可靠，故显式收集。
@@ -52,7 +63,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name="MediaTranscriber",
+    name=EXE_NAME,
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,
