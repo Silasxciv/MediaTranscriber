@@ -108,6 +108,7 @@ DEFAULT_SETTINGS = {
     "openai_model": "whisper-1",    # whisper-1 | gpt-4o-transcribe | gpt-4o-mini-transcribe
     "concurrent_tasks": 2,
     "theme": "light",               # light | dark
+    "paragraph_mode": "semantic",   # semantic | pause（语义分段 / 按停顿分段）
 }
 
 
@@ -202,3 +203,7 @@ class Settings:
     @property
     def theme(self):
         return self._data.get("theme", "light")
+
+    @property
+    def paragraph_mode(self):
+        return self._data.get("paragraph_mode", "semantic")

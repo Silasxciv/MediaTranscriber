@@ -55,7 +55,8 @@ except PermissionError:
     delivered = new
     print("LOCKED_FALLBACK_COPIED", new, os.path.getsize(new))
 
-# 校验 VAD 模型资源是否真正打进 exe
+# 校验关键资源/模块是否真正打进 exe
 with open(delivered, "rb") as f:
     blob = f.read()
 print("ONNX_BUNDLED" if b"silero_vad_v6.onnx" in blob else "ONNX_MISSING", delivered)
+print("FASTEMBED_BUNDLED" if b"fastembed" in blob else "FASTEMBED_MISSING", delivered)

@@ -808,8 +808,17 @@ class App:
                                   font=ctk.CTkFont(size=12))
         field(scroll, "界面主题", theme)
 
+        # 逐字稿分段方式
+        para_var = ctk.StringVar(
+            value="语义分段" if self.settings.paragraph_mode == "semantic" else "暂停分段")
+        para = ctk.CTkOptionMenu(scroll, values=["语义分段", "暂停分段"], variable=para_var,
+                                 font=ctk.CTkFont(size=12))
+        field(scroll, "逐字稿分段方式（语义分段=按话题自动成段 / 暂停分段=按停顿成段）", para)
+
         ctk.CTkLabel(scroll, text="本地引擎首次使用会下载模型（medium≈1.5GB），请保持联网。",
                      font=ctk.CTkFont(size=10), text_color=WX_SUB, wraplength=420).pack(anchor="w", padx=24, pady=(10, 4))
+        ctk.CTkLabel(scroll, text="「语义分段」首次使用会联网下载中文小模型（≈90-130MB）并缓存；离线时自动回退为「暂停分段」。",
+                     font=ctk.CTkFont(size=10), text_color=WX_SUB, wraplength=420).pack(anchor="w", padx=24, pady=(2, 4))
 
         def save():
             # 1) 先把设置落盘——这一步最关键，必须确保执行
@@ -822,6 +831,7 @@ class App:
                     "openai_model": omodel_var.get(),
                     "concurrent_tasks": int(conc_var.get()),
                     "theme": theme_var.get(),
+                    "paragraph_mode": "semantic" if para_var.get() == "语义分段" else "pause",
                 })
             except Exception as e:
                 # 写盘失败要明明白白告诉用户（之前可能被弹窗一闪而过吞掉）

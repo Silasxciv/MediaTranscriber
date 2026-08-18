@@ -8,6 +8,7 @@ import subprocess
 import tempfile
 
 from app import utils
+from app.segmenter import paragraphize
 
 SOURCE_LABELS = {
     "xiaoyuzhou": "小宇宙播客",
@@ -183,18 +184,26 @@ class Transcriber:
         lines.append(f"_（本稿由 {transcript.get('engine','whisper')} 引擎自动转写，中文（含中英混读）识别，仅供参考）_")
         lines.append("")
 
-        # 全文
+        # 段落化：按设置把句子级 segment 聚合成自然段落
+        mode = getattr(self.settings, "paragraph_mode", "semantic") \
+            if getattr(self, "settings", None) else "semantic"
+        paragraphs = paragraphize(transcript.get("segments", []), mode=mode, on_log=self.on_log)
+        if not paragraphs:
+            paragraphs = [{"text": transcript.get("text", "").strip(), "start": 0.0, "end": 0.0}]
+
+        # 全文（段落化）
         lines.append("## 全文")
         lines.append("")
-        lines.append(transcript.get("text", "").strip() or "（无识别内容）")
-        lines.append("")
+        for p in paragraphs:
+            lines.append(p.get("text") or "（无识别内容）")
+            lines.append("")
 
-        # 带时间轴
+        # 带时间轴（按段落）
         lines.append("## 逐字稿（带时间轴）")
         lines.append("")
-        for s in transcript.get("segments", []):
-            ts = utils.fmt_duration(s.get("start", 0))
-            lines.append(f"**[{ts}]** {s.get('text','').strip()}")
+        for p in paragraphs:
+            ts = utils.fmt_duration(p.get("start", 0))
+            lines.append(f"**[{ts}]** {p.get('text', '').strip()}")
             lines.append("")
 
         with open(path, "w", encoding="utf-8") as f:

@@ -7,18 +7,20 @@
 - 🎙️ 小宇宙节目 / 单集直链下载（自动展开每集为独立任务）
 - 📺 B 站音视频下载
 - 💻 本地音频文件直接转写
+- 📝 段落化逐字稿（设置可切「语义分段 / 暂停分段」，默认语义分段按话题边界自然成段）
 - 📋 批量任务队列，实时进度 + 运行日志
 - 🏷️ 按节目 / 单集标题自动命名输出文件
 - 🖥️ 微信风简洁 UI，开箱即用（单文件 exe，无需安装 Python）
 
 ## ⬇️ 下载
-到 Releases 页面下载 MediaTranscriber.zip，将MediaTranscriber v1.0.0.exe和ffmpeg.exe解压在同一文件夹内，双击运行MediaTranscriber.exe即可（仅 Windows）：  
+到 Releases 页面下载 MediaTranscriber.zip，将 MediaTranscriber v1.1.0.exe 和 ffmpeg.exe 解压在同一文件夹内，双击运行 MediaTranscriber.exe 即可（仅 Windows）：
 https://github.com/silasxciv/MediaTranscriber/releases
 
 ## 🚀 快速开始
 1. 下载并双击 MediaTranscriber.exe
 2. 粘贴小宇宙 / B 站链接，或选择本地音频
 3. 点「开始」，等待转写完成，文稿按标题命名保存
+4. （可选）在「设置」中切换逐字稿分段方式：语义分段（默认，按话题边界切段）/ 暂停分段（按静音停顿，离线可用）
 
 ## 🛠 从源码构建（开发者）
 python -m venv .buildenv  
@@ -28,7 +30,7 @@ python get_ffmpeg.py
 python build.spec  
 
 ## 📦 技术栈
-Python · customtkinter（微信风界面）· yt-dlp · faster-whisper · PyInstaller
+Python · customtkinter（微信风界面）· yt-dlp · faster-whisper · fastembed（语义分段）· PyInstaller
 
 ## 📄 License
 MIT —— 见仓库根目录的 LICENSE 文件
