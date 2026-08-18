@@ -12,7 +12,7 @@
 - 🖥️ 微信风简洁 UI，开箱即用（单文件 exe，无需安装 Python）
 
 ## ⬇️ 下载
-到 Releases 页面下载 MediaTranscriber.zip，将MediaTranscriber v1.0.0.exe和ffmpeg.exe解压在同一文件夹内，双击运行MediaTranscriber.exe即可（仅 Windows）：
+到 Releases 页面下载 MediaTranscriber.zip，将MediaTranscriber v1.0.0.exe和ffmpeg.exe解压在同一文件夹内，双击运行MediaTranscriber.exe即可（仅 Windows）：  
 https://github.com/silasxciv/MediaTranscriber/releases
 
 ## 🚀 快速开始
@@ -21,12 +21,11 @@ https://github.com/silasxciv/MediaTranscriber/releases
 3. 点「开始」，等待转写完成，文稿按标题命名保存
 
 ## 🛠 从源码构建（开发者）
-python -m venv .buildenv
-.buildenv\Scripts\activate
-pip install -r requirements.txt
-python get_ffmpeg.py
-python build.spec
-（产物在 dist/MediaTranscriber.exe）
+python -m venv .buildenv  
+.buildenv\Scripts\activate  
+pip install -r requirements.txt  
+python get_ffmpeg.py  
+python build.spec  
 
 ## 📦 技术栈
 Python · customtkinter（微信风界面）· yt-dlp · faster-whisper · PyInstaller
