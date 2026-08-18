@@ -5,5 +5,5 @@
 #   pip install -r requirements.txt
 # 打包：pyinstaller build.spec  （ffmpeg 静态二进制会内置到 bin/ 目录）
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"
 APP_NAME = "媒体转写助手"
